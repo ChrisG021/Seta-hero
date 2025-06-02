@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.md": "markdown",
+        "raylib.h": "c",
+        "arrow.h": "c"
+    }
+}
