@@ -6,12 +6,12 @@
 typedef struct Arrow{
     float x, y;
     float speed;
-    int color;
+    int direction;
     int flag;
     float spawnTime;
 } Arrow;
 
-void DrawArrows(Arrow arrows[], int count);
-void UpdateArrows(Arrow arrows[], int count);
+void DrawArrows(Arrow arrows[], int count, Texture2D arrowsTexture[]);
+void UpdateArrows(Arrow arrows[], int count,Vector2 userCenter);
 
 #endif
