@@ -6,7 +6,7 @@
 
 #define screenWidth 1280
 #define screenHeight 800
-#define NUM_ARROWS 5
+#define NUM_ARROWS 10
 
 
 typedef struct Point
@@ -39,17 +39,21 @@ int main() {
     UnloadImage(img4);
 
     Arrow arrows[NUM_ARROWS]={
-        {1380,400,5,GetRandomValue(1,4),0,0.5f},
-        {1380,400,5,GetRandomValue(1,4),0,1.0f},
-        {1380,400,5,GetRandomValue(1,4),0,2.0f},
-        {1380,400,5,GetRandomValue(1,4),0,2.3f},
-        {1380,400,5,GetRandomValue(1,4),0,2.6f},
+        {1380,400,7,GetRandomValue(1,4),0,0.5f},
+        {1380,400,7,GetRandomValue(1,4),0,1.0f},
+        {1380,400,7,GetRandomValue(1,4),0,2.0f},
+        {1380,400,7,GetRandomValue(1,4),0,2.3f},
+        {1380,400,7,GetRandomValue(1,4),0,2.6f},
+        {1380,400,7,GetRandomValue(1,4),0,3.0f},
+        {1380,400,7,GetRandomValue(1,4),0,3.5f},
+        {1380,400,7,GetRandomValue(1,4),0,4.0f},
+        {1380,400,7,GetRandomValue(1,4),0,4.5f},
+        {1380,400,7,GetRandomValue(1,4),0,4.8f},
     };
 
     Point center;
     center.x = 200;
     center.y = screenHeight/2;
-
 
     while (!WindowShouldClose()) {
         UpdateArrows(arrows, NUM_ARROWS,(Vector2){center.x,center.y});
