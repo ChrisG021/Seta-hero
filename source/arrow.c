@@ -2,8 +2,56 @@
 #include"user.h"
 #include<stdio.h>
 
-// float currentTime = GetTime();
-void DrawArrows(Arrow arrows[], int count, Texture2D arrowsTexture[]) {
+//Dinamic allocation of arrows from a file, before the user get  the press the option
+Arrow* loadFromFile(const char* filename, int* a_count) {
+    FILE* file = fopen(filename, "r");
+    if(file ==NULL){
+        printf("Erro ao abrir o arquivo %s\n", filename);
+        *a_count = 0;
+        return NULL;
+    }
+
+    int count = 0;
+    float tempTime;
+    int tempDir;
+
+    //line counts for dinamic allocation
+    while (fscanf(file,"%f %d", &tempTime, &tempDir) == 2) {
+        count++;
+    }
+
+    if (count==0) {
+        printf("Nenhuma seta encontrada no arquivo %s\n", filename);
+        fclose(file);
+        *a_count = 0;
+        return NULL; // No arrows found
+    }
+    Arrow* arrows = (Arrow*)malloc(count * sizeof(Arrow));
+    if (arrows == NULL) {
+        printf("Erro ao alocar memoria para as setas\n");
+        fclose(file);
+        *a_count = 0;
+        return NULL; // Memory allocation failed
+    }
+
+    rewind(file); // Reset file pointer to the beginning
+    int i =0;
+    while (fscanf(file, "%f %d", &tempTime, &tempDir) == 2) {
+        arrows[i].direction = tempDir;
+        arrows[i].flag = 0; // Inactive by default
+        arrows[i].speed = 7; // Default speed
+        arrows[i].x = 1380; // Start off-screen to the right
+        arrows[i].y = 400; // Centered vertically
+        arrows[i].spawnTime = tempTime; // Set spawn time from file
+        i++;
+    }
+    fclose(file);
+    *a_count = count; // Set the count of arrows        
+    return arrows; // Return the loaded arrows
+    
+}
+
+void DrawArrows(Arrow *arrows, int count, Texture2D arrowsTexture[]) {
     for (int i = 0; i < count; i++) {
         if (arrows[i].flag == 1) { // só desenha se estiver ativa
             
@@ -41,8 +89,7 @@ void DrawArrows(Arrow arrows[], int count, Texture2D arrowsTexture[]) {
     }
 }
 
-void UpdateArrows(Arrow arrows[], int count, Vector2 userCenter) {
-    float currentTime = GetTime();
+void UpdateArrows(Arrow *arrows, int count, Vector2 userCenter, float songTimer) {
 
     //dor de cabeça da peeeeeeeeeeeeeeste
     for (int i = 0; i < count; i++) {
@@ -52,7 +99,7 @@ void UpdateArrows(Arrow arrows[], int count, Vector2 userCenter) {
         }
 
         // Ativa a seta se ela estiver inativa (flag=0) e seu tempo de spawn chegou.
-        if (arrows[i].flag == 0 && currentTime >= arrows[i].spawnTime) {
+        if (arrows[i].flag == 0 && songTimer >= arrows[i].spawnTime) {
             arrows[i].flag = 1;
         }
 

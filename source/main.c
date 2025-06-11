@@ -6,7 +6,6 @@
 
 #define screenWidth 1280
 #define screenHeight 800
-#define NUM_ARROWS 10
 
 
 typedef struct Point
@@ -15,11 +14,12 @@ typedef struct Point
 }Point;
 
 int main() {
-    int newSize = 64;
 
     InitWindow(screenWidth, screenHeight, "Seta Hero");
     SetTargetFPS(60);
 
+    //======================IMAGE LOGIC=================
+    int newSize = 64;
     Texture2D arrowsTexture[4];
     Image img1 = LoadImage("content/arrows/up.png"); 
     ImageResize(&img1, newSize, newSize);
@@ -37,26 +37,56 @@ int main() {
     ImageResize(&img4, newSize, newSize);
     arrowsTexture[3] = LoadTextureFromImage(img4);
     UnloadImage(img4);
-
-    Arrow arrows[NUM_ARROWS]={
-        {1380,400,7,GetRandomValue(1,4),0,0.5f},
-        {1380,400,7,GetRandomValue(1,4),0,1.0f},
-        {1380,400,7,GetRandomValue(1,4),0,2.0f},
-        {1380,400,7,GetRandomValue(1,4),0,2.3f},
-        {1380,400,7,GetRandomValue(1,4),0,2.6f},
-        {1380,400,7,GetRandomValue(1,4),0,3.0f},
-        {1380,400,7,GetRandomValue(1,4),0,3.5f},
-        {1380,400,7,GetRandomValue(1,4),0,4.0f},
-        {1380,400,7,GetRandomValue(1,4),0,4.5f},
-        {1380,400,7,GetRandomValue(1,4),0,4.8f},
-    };
+    //========================== settings =========================
 
     Point center;
+    Arrow *arrows = NULL;
+    int NUM_ARROWS = 0;
     center.x = 200;
     center.y = screenHeight/2;
+    float songTimer = 0.0f;
+    
 
+    //======================MUSIC LOGIC================= 
+    // Load music based on the selected option
+    int op =1 ;
+    Music music;
+
+
+    switch (op)
+    {
+    case 1:
+        arrows = loadFromFile("content/music/wildflower.txt", &NUM_ARROWS);
+        music = LoadMusicStream("content/music/wildflower.mp3");
+        break;
+    case 2:
+
+        break;
+    
+    default:
+        break;
+    }
+    
+    // Verifica se o carregamento deu certo antes de continuar
+    if (arrows == NULL) {
+        printf("Nenhum chart foi carregado. Saindo...\n");
+        CloseWindow();
+        return -1;
+    }
+    // Initialize music
+    InitAudioDevice();
+    SetMasterVolume(0.5f); // Set volume to 50%
+    // Load and play music  
+    // Music music = LoadMusicStream("content/music/wildflower.mp3");
+    PlayMusicStream(music);
+    //===================================================
+
+
+    // Main game loop
     while (!WindowShouldClose()) {
-        UpdateArrows(arrows, NUM_ARROWS,(Vector2){center.x,center.y});
+        UpdateArrows(arrows, NUM_ARROWS,(Vector2){center.x,center.y}, songTimer);
+        UpdateMusicStream(music);
+        songTimer+= GetFrameTime();
 
         BeginDrawing();
         ClearBackground(WHITE);
@@ -64,6 +94,8 @@ int main() {
         DrawLine(0, screenHeight / 2 - 32, screenWidth, screenHeight / 2 - 32, BLACK);
         DrawLine(0, screenHeight / 2 + 32, screenWidth, screenHeight / 2 + 32, BLACK);
         DrawCircle(center.x,center.y, 32, BLACK);
+        DrawCircle(center.x,center.y, 26, WHITE);
+
 
         DrawArrows(arrows, NUM_ARROWS,arrowsTexture);
         EndDrawing();

@@ -11,7 +11,8 @@ typedef struct Arrow{
     float spawnTime;
 } Arrow;
 
-void DrawArrows(Arrow arrows[], int count, Texture2D arrowsTexture[]);
-void UpdateArrows(Arrow arrows[], int count,Vector2 userCenter);
+Arrow* loadFromFile(const char* filename, int* a_count);
+void DrawArrows(Arrow *arrows, int count, Texture2D arrowsTexture[]);
+void UpdateArrows(Arrow *arrows, int count,Vector2 userCenter, float songTimer);
 
 #endif
