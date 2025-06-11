@@ -24,31 +24,32 @@ Arrow* loadFromFile(const char* filename, int* a_count) {
         printf("Nenhuma seta encontrada no arquivo %s\n", filename);
         fclose(file);
         *a_count = 0;
-        return NULL; // No arrows found
+        return NULL; 
     }
     Arrow* arrows = (Arrow*)malloc(count * sizeof(Arrow));
     if (arrows == NULL) {
         printf("Erro ao alocar memoria para as setas\n");
         fclose(file);
         *a_count = 0;
-        return NULL; // Memory allocation failed
+        return NULL; 
     }
 
-    rewind(file); // Reset file pointer to the beginning
+    rewind(file);
     int i =0;
     while (fscanf(file, "%f %d", &tempTime, &tempDir) == 2) {
         arrows[i].direction = tempDir;
-        arrows[i].flag = 0; // Inactive by default
-        arrows[i].speed = 7; // Default speed
-        arrows[i].x = 1380; // Start off-screen to the right
-        arrows[i].y = 400; // Centered vertically
-        arrows[i].spawnTime = tempTime; // Set spawn time from file
+        arrows[i].flag = 0; 
+        arrows[i].speed = 7; 
+        arrows[i].x = 1380;
+        arrows[i].y = 400;
+        arrows[i].spawnTime = tempTime; 
         i++;
     }
     fclose(file);
-    *a_count = count; // Set the count of arrows        
-    return arrows; // Return the loaded arrows
+    *a_count = count;        
+    return arrows; 
     
+    //so pra lembrar:: no fim o a count é o numero de setas que foram carregadas do arquivo e loop do while vai alocar dinamicamente o numero de setas que foram carregadas do arquivo com tempo e orientação deifinidas no txt
 }
 
 void DrawArrows(Arrow *arrows, int count, Texture2D arrowsTexture[]) {
@@ -89,8 +90,8 @@ void DrawArrows(Arrow *arrows, int count, Texture2D arrowsTexture[]) {
     }
 }
 
-void UpdateArrows(Arrow *arrows, int count, Vector2 userCenter, float songTimer) {
-
+void  UpdateArrows(Arrow *arrows, int count, Vector2 userCenter, float songTimer, int *score) {
+ // Variável para armazenar a pontuação
     //dor de cabeça da peeeeeeeeeeeeeeste
     for (int i = 0; i < count; i++) {
         // Se a seta já foi acertada (flag=2), ignore-a completamente.
@@ -99,6 +100,7 @@ void UpdateArrows(Arrow *arrows, int count, Vector2 userCenter, float songTimer)
         }
 
         // Ativa a seta se ela estiver inativa (flag=0) e seu tempo de spawn chegou.
+        //troquei o current time por songTimer, que é o tempo da musica
         if (arrows[i].flag == 0 && songTimer >= arrows[i].spawnTime) {
             arrows[i].flag = 1;
         }
@@ -108,6 +110,7 @@ void UpdateArrows(Arrow *arrows, int count, Vector2 userCenter, float songTimer)
             // Verifica se o evento do usuário a desativa (acerto).
             if (userEventTrigger(&arrows[i], userCenter) == arrows[i].direction) {
                 // Seta foi acertada! Mude o estado para 2 (permanentemente desativada).
+                *score+=10;
                 arrows[i].flag = 2;
                 continue; // Pula para a próxima seta.
             }
@@ -122,5 +125,6 @@ void UpdateArrows(Arrow *arrows, int count, Vector2 userCenter, float songTimer)
             }
         }
     }
+
 }
 

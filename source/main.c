@@ -17,6 +17,7 @@ int main() {
 
     InitWindow(screenWidth, screenHeight, "Seta Hero");
     SetTargetFPS(60);
+    InitAudioDevice();
 
     //======================IMAGE LOGIC=================
     int newSize = 64;
@@ -40,8 +41,11 @@ int main() {
     //========================== settings =========================
 
     Point center;
+    //initialize dinamic arrows
+    // Arrows are initialized here, but they will be loaded from a file later
     Arrow *arrows = NULL;
     int NUM_ARROWS = 0;
+    int score = 0;
     center.x = 200;
     center.y = screenHeight/2;
     float songTimer = 0.0f;
@@ -74,7 +78,7 @@ int main() {
         return -1;
     }
     // Initialize music
-    InitAudioDevice();
+
     SetMasterVolume(0.5f); // Set volume to 50%
     // Load and play music  
     // Music music = LoadMusicStream("content/music/wildflower.mp3");
@@ -84,7 +88,9 @@ int main() {
 
     // Main game loop
     while (!WindowShouldClose()) {
-        UpdateArrows(arrows, NUM_ARROWS,(Vector2){center.x,center.y}, songTimer);
+        //i have updated for 
+        UpdateArrows(arrows, NUM_ARROWS,(Vector2){center.x,center.y}, songTimer, &score);
+        DrawText(TextFormat("Score: %d", score), 20, 20, 20, BLACK);
         UpdateMusicStream(music);
         songTimer+= GetFrameTime();
 
