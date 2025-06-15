@@ -64,7 +64,8 @@ int main() {
         music = LoadMusicStream("content/music/wildflower.mp3");
         break;
     case 2:
-
+        arrows = loadFromFile("content/music/Mortals.txt", &NUM_ARROWS);
+        music = LoadMusicStream("content/music/Mortals.mp3");
         break;
     
     default:
@@ -73,7 +74,7 @@ int main() {
     
     // Verifica se o carregamento deu certo antes de continuar
     if (arrows == NULL) {
-        printf("Nenhum chart foi carregado. Saindo...\n");
+        printf("Nenhuma seta foi carregado. Saindo...\n");
         CloseWindow();
         return -1;
     }
@@ -88,19 +89,24 @@ int main() {
 
     // Main game loop
     while (!WindowShouldClose()) {
-        //i have updated for 
+
         UpdateArrows(arrows, NUM_ARROWS,(Vector2){center.x,center.y}, songTimer, &score);
-        DrawText(TextFormat("Score: %d", score), 20, 20, 20, BLACK);
+        DrawRectangle(0,0,130,40,LIGHTGRAY);
+        DrawText(TextFormat("Score: %d", score), 20, 15, 20, BLACK);
         UpdateMusicStream(music);
         songTimer+= GetFrameTime();
 
         BeginDrawing();
-        ClearBackground(WHITE);
+        ClearBackground((Color){224,224,224,255});
 
-        DrawLine(0, screenHeight / 2 - 32, screenWidth, screenHeight / 2 - 32, BLACK);
-        DrawLine(0, screenHeight / 2 + 32, screenWidth, screenHeight / 2 + 32, BLACK);
-        DrawCircle(center.x,center.y, 32, BLACK);
-        DrawCircle(center.x,center.y, 26, WHITE);
+        DrawRectangle(0,screenHeight / 2 -37,screenWidth,5,LIGHTGRAY);
+
+        DrawRectangle(0,screenHeight / 2 -32,screenWidth,64,GRAY);
+
+        DrawRectangle(0,screenHeight / 2 +32,screenWidth,5,LIGHTGRAY);
+
+        DrawCircle(center.x,center.y, 40, BLACK);
+        DrawCircle(center.x,center.y, 32, WHITE);
 
 
         DrawArrows(arrows, NUM_ARROWS,arrowsTexture);

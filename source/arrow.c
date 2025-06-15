@@ -26,7 +26,7 @@ Arrow* loadFromFile(const char* filename, int* a_count) {
         *a_count = 0;
         return NULL; 
     }
-    Arrow* arrows = (Arrow*)malloc(count * sizeof(Arrow));
+    Arrow* arrows = (Arrow*)malloc(count * sizeof(Arrow));//array dinamico
     if (arrows == NULL) {
         printf("Erro ao alocar memoria para as setas\n");
         fclose(file);
