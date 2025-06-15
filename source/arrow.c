@@ -13,10 +13,9 @@ Arrow* loadFromFile(const char* filename, int* a_count) {
 
     int count = 0;
     float tempTime;
-    int tempDir;
 
     //line counts for dinamic allocation
-    while (fscanf(file,"%f %d", &tempTime, &tempDir) == 2) {
+    while (fscanf(file,"%f", &tempTime) ==1) {
         count++;
     }
 
@@ -36,8 +35,8 @@ Arrow* loadFromFile(const char* filename, int* a_count) {
 
     rewind(file);
     int i =0;
-    while (fscanf(file, "%f %d", &tempTime, &tempDir) == 2) {
-        arrows[i].direction = tempDir;
+    while (fscanf(file, "%f", &tempTime) == 1) {
+        arrows[i].direction = GetRandomValue(1,4);
         arrows[i].flag = 0; 
         arrows[i].speed = 7; 
         arrows[i].x = 1380;
@@ -114,6 +113,11 @@ void  UpdateArrows(Arrow *arrows, int count, Vector2 userCenter, float songTimer
                 arrows[i].flag = 2;
                 continue; // Pula para a próxima seta.
             }
+            if (songTimer>=100.0f)
+            {
+               arrows[i].speed = 10;
+            }
+            
 
             // Move a seta.
             arrows[i].x -= arrows[i].speed;

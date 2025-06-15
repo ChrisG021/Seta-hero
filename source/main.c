@@ -53,7 +53,7 @@ int main() {
 
     //======================MUSIC LOGIC================= 
     // Load music based on the selected option
-    int op =1 ;
+    int op = 3;
     Music music;
 
 
@@ -64,10 +64,13 @@ int main() {
         music = LoadMusicStream("content/music/wildflower.mp3");
         break;
     case 2:
-        arrows = loadFromFile("content/music/Mortals.txt", &NUM_ARROWS);
-        music = LoadMusicStream("content/music/Mortals.mp3");
+        arrows = loadFromFile("content/music/like_fire.txt", &NUM_ARROWS);
+        music = LoadMusicStream("content/music/like_fire.mp3");
         break;
-    
+    case 3:
+        arrows = loadFromFile("content/music/missing_life.txt", &NUM_ARROWS);
+        music = LoadMusicStream("content/music/missing_life.mp3");
+        break;
     default:
         break;
     }
@@ -91,7 +94,7 @@ int main() {
     while (!WindowShouldClose()) {
 
         UpdateArrows(arrows, NUM_ARROWS,(Vector2){center.x,center.y}, songTimer, &score);
-        DrawRectangle(0,0,130,40,LIGHTGRAY);
+        DrawRectangle(0,0,170,40,LIGHTGRAY);
         DrawText(TextFormat("Score: %d", score), 20, 15, 20, BLACK);
         UpdateMusicStream(music);
         songTimer+= GetFrameTime();
@@ -112,7 +115,8 @@ int main() {
         DrawArrows(arrows, NUM_ARROWS,arrowsTexture);
         EndDrawing();
     }
-
+    
     CloseWindow();
+    free(arrows);
     return 0;
 }
