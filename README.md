@@ -25,4 +25,4 @@ make run
 * [Christophe Guerra](https://github.com/ChrisG021)
 * [Pedro neto](https://github.com/nTalvess)
 * [Felipe Feitosa](https://github.com/FelipeOtaviano78)
-* [Manoel Vera]()
+* [Manoel Vera](https://github.com/Mabelico)
