@@ -15,7 +15,7 @@ cd seta_hero/build/windows/release
 ```
 .\seta_hero.exe
 ```
-* Para compilar o game necessario terminal Linux <img width="20" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/linux.png"> e instalação desses pacotes
+* Para compilar o game necessario terminal Linux <img width="20" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/linux.png">(MSYS2 por exemplo) e instalação desses pacotes para compilação
 ```
 pacman -Syu
 pacman -S make mingw-w64-x86_64-gcc mingw-w64-x86_64-raylib
