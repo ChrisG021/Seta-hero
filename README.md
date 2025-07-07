@@ -2,7 +2,7 @@
 Projeto com fins acadêmico com intuito de concretizar os conhecimentos em C e em estrutura de dados.
 
 ## Tecnologias utilizada 📋
-* Lingaguem  
+* Lingaguem  C
 * Biblioteca RayLib e template com Makefile
 * Ambiente de versionamento Github <img width="20" src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/github.png">
 
